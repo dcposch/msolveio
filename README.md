@@ -19,7 +19,7 @@ runtime dependencies.
 ## Usage
 
 ```python
-from msolveio import emit_system, run_groebner, MsolveAmbiguous
+from msolveio import emit_system, parse_groebner, run_groebner, MsolveAmbiguous
 
 source = emit_system(
     ["x^2+y", "x*y-1"],
