@@ -1,0 +1,10 @@
+#Reduced Groebner basis data
+#---
+#field characteristic: 0
+#variable order:       x, y
+#monomial order:       graded reverse lexicographical
+#length of basis:      3 elements sorted by increasing leading monomials
+#---
+[y^2+x, 
+x*y-1, 
+x^2+y]:
