@@ -143,7 +143,9 @@ def test_output_is_frozen() -> None:
 
 
 def test_mode_must_be_groebner() -> None:
-    assert list(Mode) == [Mode.GROEBNER]
+    assert list(Mode) == [Mode.GROEBNER, Mode.PARAM]
     assert not hasattr(Mode, "SOLVER")
     with pytest.raises(ValueError):
         parse_groebner(fixture("unit_qq.out"), mode="solver")  # type: ignore[arg-type]
+    with pytest.raises(ValueError):
+        parse_groebner(fixture("unit_qq.out"), mode=Mode.PARAM)

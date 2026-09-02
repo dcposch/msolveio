@@ -1,0 +1,2 @@
+recursive-include tests/fixtures *.out
+recursive-include tests/fixtures *.ms

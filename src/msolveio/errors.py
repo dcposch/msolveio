@@ -11,9 +11,11 @@ __all__ = [
     "MsolveInputError",
     "MsolveOutputError",
     "MsolveAmbiguous",
+    "MsolveCharPParamUnsupported",
     "MsolveVersionUnsupported",
     "MsolveTimeout",
     "MsolveDied",
+    "MsolveNotGeneric",
 ]
 
 
@@ -41,6 +43,22 @@ class MsolveAmbiguous(MsolveOutputError):
     Interpreting it as a basis would silently invert the answer, so this is a
     hard error.
     """
+
+
+class MsolveCharPParamUnsupported(MsolveOutputError):
+    """The bytes are a valid parametrization, but over a prime field.
+
+    msolve's characteristic-p parametrization output uses a different grammar
+    from the characteristic-0 one (numerator entries carry no scale constant,
+    and the printed denominator need not be the derivative of the eliminating
+    polynomial). Parsing it with the characteristic-0 conventions would produce
+    wrong witness points that still pass casual arithmetic, so this release
+    refuses it outright. Planned for a later msolveio release.
+    """
+
+    def __init__(self, message: str, *, characteristic: int) -> None:
+        super().__init__(message)
+        self.characteristic = characteristic
 
 
 class MsolveVersionUnsupported(MsolveError):
@@ -74,3 +92,13 @@ class MsolveDied(MsolveError):
         self.returncode = returncode
         self.signal = signal
         self.stderr = stderr
+
+
+class MsolveNotGeneric(MsolveDied):
+    """msolve refused the system because the staircase is not generic enough.
+
+    Raised only when the caller restricted msolve's genericity handling
+    (``genericity=0`` or ``1``) and the restriction was not sufficient. Re-run
+    with ``genericity=2`` (the default) to let msolve add a linear form with a
+    new variable; the resulting chart change is surfaced on the parsed result.
+    """
