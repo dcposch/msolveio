@@ -35,7 +35,7 @@ from .param import (
 from .parse import GroebnerOutput, parse_groebner
 from .run import ParamResult, RunResult, run_groebner, run_param
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 __all__ = [
     "Mode",
